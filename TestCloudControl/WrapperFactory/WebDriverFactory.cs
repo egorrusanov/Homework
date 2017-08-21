@@ -2,17 +2,15 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
-using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
-using System.Collections.Generic;
 
-namespace TestCloudControl.WrapperFactory
+namespace TestCloudControl
 {
-    class WebDriverFactory
+    public class WebDriverFactory
     {
-        private static readonly IDictionary<string, IWebDriver> Drivers = new Dictionary<string, IWebDriver>();
         private static IWebDriver driver;
+        private static TimeSpan waitForElement = TimeSpan.FromSeconds(5);
 
         public static IWebDriver Driver
         {
@@ -34,12 +32,10 @@ namespace TestCloudControl.WrapperFactory
             {
                 case "Firefox":                    
                     driver = new FirefoxDriver();
-                    Drivers.Add("Firefox", Driver);
                     break;
 
                 case "Chrome":
                     driver = new ChromeDriver();
-                    Drivers.Add("Chrome", Driver);
                     break;
 
                 case "IE":
@@ -50,9 +46,9 @@ namespace TestCloudControl.WrapperFactory
                         IntroduceInstabilityByIgnoringProtectedModeSettings = true
                     };
                     driver = new InternetExplorerDriver(options);
-                    Drivers.Add("IE", Driver);
                     break;
             }
+            driver.Manage().Cookies.DeleteAllCookies();
         }
 
         public static void LoadApplication(string url)
@@ -62,11 +58,20 @@ namespace TestCloudControl.WrapperFactory
         
         public static void CloseAllDrivers()
         {
-            foreach (var key in Drivers.Keys)
+            Driver.Close();
+            Driver.Quit();
+        }
+
+        //Ожидание ответа ajax
+        public static void WaitForReady()
+        {
+            WebDriverWait wait = new WebDriverWait(WebDriverFactory.Driver, waitForElement);
+            wait.Until(driver =>
             {
-                Drivers[key].Close();
-                Drivers[key].Quit();
-            }
+                bool isAjaxFinished = (bool)((IJavaScriptExecutor)driver).
+                    ExecuteScript("return jQuery.active == 0");
+                return isAjaxFinished;
+            });
         }
     }
 }

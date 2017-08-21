@@ -1,72 +1,25 @@
 ﻿using NUnit.Framework;
 using TestCloudControl.PageObjects;
-using TestCloudControl.WrapperFactory;
 using System.Configuration;
 using System;
+using System.Collections.Generic;
 
 namespace TestCloudControl.TestCases
 {
     [TestFixture]
     [Parallelizable]
-    public class LoginTest : BaseTest
+    public class LoginTest : TestBase
     {
         [Test]
-        [TestCaseSource(typeof(BaseTest), "BrowserToRunWith")]
+        [TestCaseSource(typeof(TestBase), "BrowserToRunWith")]
         public void Login(string browserName)
         {
             WebDriverFactory.InitDriver(browserName);
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
 
-            Page.Login.LoginToApplication("", "Administrator_123");
+            Page.Login.LoginToApplication("superadmin@x5test.ru", "&U*I9o");
 
-            if (Page.Login.ValidateResultLogin(WebDriverFactory.Driver) == true)
-            {
-                Console.Write("Success");
-            }
-            else
-            {
-                Console.Write("Wrong msg!!!");
-            };
-        }
-
-        [Test]
-        [TestCaseSource(typeof(BaseTest), "BrowserToRunWith")]
-        public void VerifyEmail(string browserName)
-        {
-            WebDriverFactory.InitDriver(browserName);
-            WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
-
-            Page.Login.LoginToApplication("", "Administrator_123");
-
-            if (Page.Login.ValidateResultLogin(WebDriverFactory.Driver) == true)
-            {
-                Console.Write("Success");
-            }
-            else
-            {
-                Console.Write("Wrong msg!!!");
-            };
-        }
-
-        [Test]
-        [TestCaseSource(typeof(BaseTest), "BrowserToRunWith")]
-        public void VerifyPassword(string browserName)
-        {
-            WebDriverFactory.InitDriver(browserName);
-            WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
-
-            Page.Login.LoginToApplication("administrator", "Administrator_123");
-
-            Page.Login.LoginToApplication("", "Administrator_123");
-
-            if (Page.Login.ValidateResultLogin(WebDriverFactory.Driver) == true)
-            {
-                Console.Write("Success");
-            }
-            else
-            {
-                Console.Write("Wrong msg!!!");
-            };
+            Page.Login.SuccessLogin(WebDriverFactory.Driver);
         }
     }
 }

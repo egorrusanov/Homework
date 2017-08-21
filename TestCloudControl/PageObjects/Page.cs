@@ -1,5 +1,4 @@
-﻿using TestCloudControl.WrapperFactory;
-using OpenQA.Selenium.Support.PageObjects;
+﻿using OpenQA.Selenium.Support.PageObjects;
 
 namespace TestCloudControl.PageObjects
 {
@@ -12,14 +11,14 @@ namespace TestCloudControl.PageObjects
             return page;
         }
 
-        public static StartPage Start
-        {
-            get { return GetPage<StartPage>(); }
-        }
-
         public static LoginPage Login
         {
             get { return GetPage<LoginPage>(); }
+        }
+
+        public static MainPage Main
+        {
+            get { return GetPage<MainPage>(); }
         }
     }
 }
