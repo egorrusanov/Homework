@@ -1,8 +1,6 @@
 ﻿using NUnit.Framework;
 using TestCloudControl.PageObjects;
 using System.Configuration;
-using System;
-using System.Collections.Generic;
 using System.Collections;
 
 namespace TestCloudControl.TestCases
@@ -48,21 +46,26 @@ namespace TestCloudControl.TestCases
             WebDriverFactory.InitDriver(browserName);
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
 
-            Page.Login.LoginToApplication(email, password);
+            LoginPage loginPage = PageFactory.GetLoginPage();
 
-            return Page.Login.ValidateResultLogin(WebDriverFactory.Driver);
+            loginPage.LoginToApplication(email, password);
+
+            return loginPage.ValidateResultLogin(WebDriverFactory.Driver);
         }
 
         [Test]
         [TestCaseSource(nameof(GetTestCasesPasswordLogin))]
         public string IncorrectPassword(string browserName, string email, string password)
         {
+            
             WebDriverFactory.InitDriver(browserName);
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
 
-            Page.Login.LoginToApplication(email, password);
+            LoginPage loginPage = PageFactory.GetLoginPage();
 
-            return Page.Login.ValidateResultLogin(WebDriverFactory.Driver);
+            loginPage.LoginToApplication(email, password);
+
+            return loginPage.ValidateResultLogin(WebDriverFactory.Driver);
         }
     }
 }

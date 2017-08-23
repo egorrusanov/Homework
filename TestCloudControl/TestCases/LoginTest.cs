@@ -17,9 +17,12 @@ namespace TestCloudControl.TestCases
             WebDriverFactory.InitDriver(browserName);
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
 
-            Page.Login.LoginToApplication("superadmin@x5test.ru", "&U*I9o");
+            LoginPage loginPage = PageFactory.GetLoginPage();
 
-            Page.Login.SuccessLogin(WebDriverFactory.Driver);
+            
+            loginPage.LoginToApplication("superadmin@x5test.ru", "xW%fEseSJCD1");
+
+            loginPage.SuccessLogin(WebDriverFactory.Driver);
         }
     }
 }

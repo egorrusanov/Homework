@@ -5,10 +5,8 @@ using System;
 
 namespace TestCloudControl.PageObjects
 {
-    public class MainPage
+    public class MainPage : Header
     {
-        [FindsBy(How = How.ClassName, Using = "user-data")]
-        [CacheLookup]
-        private IWebElement UserData { get; set; }
+
     }
 }

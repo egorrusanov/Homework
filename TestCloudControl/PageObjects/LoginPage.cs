@@ -8,37 +8,37 @@ namespace TestCloudControl.PageObjects
     public class LoginPage
     {
         [FindsBy(How = How.Id, Using = "RegisterUserName")]
-        private IWebElement UserName { get; set; }
+        private IWebElement _userName;
 
         [FindsBy(How = How.Id, Using = "RegisterPassword")]
         [CacheLookup]
-        private IWebElement UserPassword { get; set; }
+        private IWebElement _userPassword;
 
         [FindsBy(How = How.XPath, Using = LOGIN_BUTTON)]
-        private IWebElement Submit { get; set; }
+        private IWebElement _submit;
 
         [FindsBy(How = How.LinkText, Using = "Авторизация")]
-        private IWebElement SuccessLoad { get; set; }
-        
+        private IWebElement _successLoad;
+
         [FindsBy(How = How.Id, Using = "toast-container")]
-        private IWebElement ToastContainer { get; set; }
+        private IWebElement _toastContainer;
 
         [FindsBy(How = How.XPath, Using = "//[@data-l10n-id='Register']")]
-        private IWebElement Register { get; set; }
+        private IWebElement _register;
 
         [FindsBy(How = How.XPath, Using = "//[@data-l10n-id='RecoverPassword']")]
-        private IWebElement RecoverPassword { get; set; }
+        private IWebElement _recoverPassword;
 
         [FindsBy(How = How.XPath, Using = "//[@type='checkbox']")]
-        private IWebElement RememberMe { get; set; }
+        private IWebElement _rememberMe;
 
         public void LoginToApplication(string name, string password)
         {
-            UserName.Clear();
-            UserName.SendKeys(name);
-            UserPassword.Clear();
-            UserPassword.SendKeys(password);
-            Submit.Click();
+            _userName.Clear();
+            _userName.SendKeys(name);
+            _userPassword.Clear();
+            _userPassword.SendKeys(password);
+            _submit.Click();
         }
 
         public string ValidateResultLogin(IWebDriver driver)
@@ -59,7 +59,8 @@ namespace TestCloudControl.PageObjects
         public bool SuccessLogin(IWebDriver driver)
         {
             return driver.Manage().Cookies.AllCookies.Count > 0 
-                && driver.Manage().Cookies.AllCookies[0].Expiry == DateTime.Now.AddHours(1);
+                && driver.Manage().Cookies.AllCookies[0].Value != null
+                && driver.Manage().Cookies.AllCookies[0].Expiry.Value.Hour == DateTime.Now.AddHours(1).Hour;
         }
 
         private const string LOGIN_BUTTON = "//button[@type='submit']";
