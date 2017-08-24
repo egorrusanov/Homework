@@ -58,9 +58,16 @@ namespace TestCloudControl.PageObjects
 
         public bool SuccessLogin(IWebDriver driver)
         {
-            return driver.Manage().Cookies.AllCookies.Count > 0 
-                && driver.Manage().Cookies.AllCookies[0].Value != null
-                && driver.Manage().Cookies.AllCookies[0].Expiry.Value.Hour == DateTime.Now.AddHours(1).Hour;
+            if (driver.Manage().Cookies.AllCookies.Count == 0)
+                throw new Exception("Cookies пустые.");
+
+            if (driver.Manage().Cookies.AllCookies[0].Value.Equals("null"))
+                throw new Exception("Значение токена null.");
+
+            //if (!driver.Manage().Cookies.AllCookies[0].Expiry.Value.Hour.Equals(DateTime.Now.AddHours(1).Hour))
+            //    throw new Exception("Время жизни токена не 1 час.");
+
+            return true;
         }
 
         private const string LOGIN_BUTTON = "//button[@type='submit']";

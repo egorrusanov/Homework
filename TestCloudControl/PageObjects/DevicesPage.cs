@@ -82,9 +82,9 @@ namespace TestCloudControl.PageObjects
         }
         
 
-        public string GetFirstDeviceLink()
+        public string GetFirstDeviceName()
         {
-            return DevicesRow[1].FindElement(By.ClassName("device-link")).GetAttribute("href");
+            return DevicesRow[1].FindElement(By.TagName("a")).Text;
         }
 
         public void OpenFirstDeviceLink()

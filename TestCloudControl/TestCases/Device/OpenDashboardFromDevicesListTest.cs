@@ -8,11 +8,11 @@ namespace TestCloudControl.TestCases.Device
 {
     [TestFixture]
     [Parallelizable]
-    public class OpenProfileFromDevicesListTest : TestBase
+    public class OpenDashboardFromDevicesListTest : TestBase
     {
         [Test]
         [TestCaseSource(typeof(TestBase), "BrowserToRunWith")]
-        public void OpenProfileFromDevicesList(string browserName)
+        public void OpenDashboardFromDevicesList(string browserName)
         {
             string deviceName = "";
 
@@ -25,29 +25,27 @@ namespace TestCloudControl.TestCases.Device
 
             WebDriverFactory.WaitForReady();
 
-            loginPage.SuccessLogin(WebDriverFactory.Driver);
+            if (loginPage.SuccessLogin(WebDriverFactory.Driver) == false)
+                throw new Exception("Не удалось авторизоваться.");
 
             MainPage mainPage = PageFactory.GetMainPage();
 
             mainPage.OpenDevicesList();
 
+            WebDriverFactory.WaitForReady();
             DevicesPage devicesPage = PageFactory.GetDevicesPage();
 
             if (devicesPage.SuccessLoadModemList() && devicesPage.SuccessLoadDevicesTable())
             {
                 deviceName = devicesPage.GetFirstDeviceName();
                 devicesPage.OpenFirstDeviceLink();
-            }
+            }     
 
+            WebDriverFactory.WaitForReady();
             DashboardPage dashboardPage = PageFactory.GetDashboardDevicePage();
 
-            if (dashboardPage.SuccessLoadDevice(deviceName) && dashboardPage.SuccessLoadDashboard())
-                dashboardPage.OpenProfile();
-
-            ProfilePage profileDevicePage = PageFactory.GetProfileDevicePage();
-
-            profileDevicePage.SuccessLoadProfileDevice();
-
+            dashboardPage.SuccessLoadDevice(deviceName);
+            dashboardPage.SuccessLoadDashboard();
         }
 
     }

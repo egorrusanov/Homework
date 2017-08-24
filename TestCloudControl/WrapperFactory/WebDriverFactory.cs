@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
+using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using System;
 
@@ -10,7 +11,7 @@ namespace TestCloudControl
     public class WebDriverFactory
     {
         private static IWebDriver driver;
-        private static TimeSpan waitForElement = TimeSpan.FromSeconds(5);
+        private static TimeSpan waitForElement = TimeSpan.FromSeconds(15);
 
         public static IWebDriver Driver
         {
@@ -39,13 +40,7 @@ namespace TestCloudControl
                     break;
 
                 case "IE":
-                    var options = new InternetExplorerOptions
-                    {
-                        EnableNativeEvents = true, // just as an example, you don't need this
-                        IgnoreZoomLevel = true,
-                        IntroduceInstabilityByIgnoringProtectedModeSettings = true
-                    };
-                    driver = new InternetExplorerDriver(options);
+                    driver = new InternetExplorerDriver();
                     break;
             }
             driver.Manage().Cookies.DeleteAllCookies();
@@ -69,7 +64,7 @@ namespace TestCloudControl
             wait.Until(driver =>
             {
                 bool isAjaxFinished = (bool)((IJavaScriptExecutor)driver).
-                    ExecuteScript("return jQuery.active == 0");
+                    ExecuteScript("return window.jQuery != undefined && jQuery.active === 0");
                 return isAjaxFinished;
             });
         }

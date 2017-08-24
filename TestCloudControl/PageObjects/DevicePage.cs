@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System;
-using System.Collections.Generic;
 
 namespace TestCloudControl.PageObjects
 {
@@ -10,7 +9,7 @@ namespace TestCloudControl.PageObjects
     /// </summary>
     public class DevicePage : Header
     {
-        [FindsBy(How = How.XPath, Using = DEVICE_NAME)]
+        [FindsBy(How = How.TagName, Using = "h1")]
         private IWebElement _deviceName;
 
         [FindsBy(How = How.XPath, Using = TAB_DASHBOARD)]
@@ -20,7 +19,7 @@ namespace TestCloudControl.PageObjects
         private IWebElement _tabHistory;
 
         [FindsBy(How = How.XPath, Using = TAB_PROFILE)]
-        private IWebElement _tabDaProfile;
+        private IWebElement _tabProfile;
 
         [FindsBy(How = How.XPath, Using = TAB_OPERATION_LOG)]
         private IWebElement _tabOperationLog;
@@ -38,13 +37,12 @@ namespace TestCloudControl.PageObjects
 
         public void OpenProfile()
         {
-            _tabDaProfile.Click();
+            _tabProfile.Click();
         }
 
-        private const string DEVICE_NAME = ".//[@data-bind='text: deviceName']";
         private const string TAB_DASHBOARD = ".//[@class='dash-tabs']/a[0]";
         private const string TAB_HISTORY = ".//[@class='dash-tabs']/a[1]";
-        private const string TAB_PROFILE = ".//[@class='dash-tabs']/a[2]";
+        private const string TAB_PROFILE = "//*[@class='dash-tabs']/a[2]";
         private const string TAB_OPERATION_LOG = ".//[@class='dash-tabs']/a[3]";
         private const string TAB_ALARMS = ".//[@class='dash-tabs']/a[4]";
     }

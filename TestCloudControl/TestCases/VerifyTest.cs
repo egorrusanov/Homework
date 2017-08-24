@@ -47,8 +47,8 @@ namespace TestCloudControl.TestCases
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
 
             LoginPage loginPage = PageFactory.GetLoginPage();
-
-            loginPage.LoginToApplication(email, password);
+            
+            loginPage.LoginToApplication(GetEmail(), GetPassword());
 
             return loginPage.ValidateResultLogin(WebDriverFactory.Driver);
         }
@@ -62,8 +62,8 @@ namespace TestCloudControl.TestCases
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
 
             LoginPage loginPage = PageFactory.GetLoginPage();
-
-            loginPage.LoginToApplication(email, password);
+            
+            loginPage.LoginToApplication(GetEmail(), GetPassword());
 
             return loginPage.ValidateResultLogin(WebDriverFactory.Driver);
         }
