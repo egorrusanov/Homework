@@ -41,5 +41,15 @@ namespace TestCloudControl.PageObjects
         {
             return GetPage<Device.DashboardPage>();
         }
+
+        public static ObjectsPage GetObjectsPage()
+        {
+            return GetPage<ObjectsPage>();
+        }
+
+        public static ObjectPage GetObjectPage()
+        {
+            return GetPage<ObjectPage>();
+        }
     }
 }

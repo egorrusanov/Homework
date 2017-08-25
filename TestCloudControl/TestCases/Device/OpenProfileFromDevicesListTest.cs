@@ -25,7 +25,7 @@ namespace TestCloudControl.TestCases.Device
 
             WebDriverFactory.WaitForReady();
 
-            loginPage.SuccessLogin(WebDriverFactory.Driver);
+            loginPage.SuccessLogin();
 
             MainPage mainPage = PageFactory.GetMainPage();
 

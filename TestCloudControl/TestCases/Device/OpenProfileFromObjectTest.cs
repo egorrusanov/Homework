@@ -8,19 +8,16 @@ namespace TestCloudControl.TestCases.Device
 {
     [TestFixture]
     [Parallelizable]
-    public class OpenDashboardFromDevicesListTest : TestBase
+    public class OpenProfileFromObjectTest : TestBase
     {
         [Test]
         [TestCaseSource(typeof(TestBase), "BrowserToRunWith")]
-        public void OpenDashboardFromDevicesList(string browserName)
+        public void OpenProfileFromObject(string browserName)
         {
-            string deviceName = "";
-
             WebDriverFactory.InitDriver(browserName);
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
 
             LoginPage loginPage = PageFactory.GetLoginPage();
-
             loginPage.LoginToApplication(GetEmail(), GetPassword());
 
             WebDriverFactory.WaitForReady();
@@ -29,23 +26,20 @@ namespace TestCloudControl.TestCases.Device
                 throw new Exception("Не удалось авторизоваться.");
 
             MainPage mainPage = PageFactory.GetMainPage();
+            string companyName = mainPage.GetCompanyName();
+            mainPage.OpenObjects();
 
-            mainPage.OpenDevicesList();
+            ObjectsPage objectsPage = PageFactory.GetObjectsPage();
 
-            WebDriverFactory.WaitForReady();
-            DevicesPage devicesPage = PageFactory.GetDevicesPage();
+            objectsPage.SuccessLoadObjects(companyName);
 
-            if (devicesPage.SuccessLoadModemList() && devicesPage.SuccessLoadDevicesTable())
-            {
-                deviceName = devicesPage.GetFirstDeviceName();
-                devicesPage.OpenFirstDeviceLink();
-            }     
+            string objectName = objectsPage.GetObjectName();
+            objectsPage.OpenObject();
 
-            WebDriverFactory.WaitForReady();
-            DashboardPage dashboardPage = PageFactory.GetDashboardDevicePage();
+            ObjectPage objectPage = PageFactory.GetObjectPage();
+            objectPage.SuccessLoadObject(objectName);
 
-            dashboardPage.SuccessLoadDevice(deviceName);
-            dashboardPage.SuccessLoadDashboard();
+            
         }
 
     }

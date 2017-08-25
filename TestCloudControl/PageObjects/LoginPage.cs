@@ -56,15 +56,15 @@ namespace TestCloudControl.PageObjects
             }
         }
 
-        public bool SuccessLogin(IWebDriver driver)
+        public bool SuccessLogin()
         {
-            if (driver.Manage().Cookies.AllCookies.Count == 0)
+            if (WebDriverFactory.Driver.Manage().Cookies.AllCookies.Count == 0)
                 throw new Exception("Cookies пустые.");
 
-            if (driver.Manage().Cookies.AllCookies[0].Value.Equals("null"))
+            if (WebDriverFactory.Driver.Manage().Cookies.AllCookies[0].Value.Equals("null"))
                 throw new Exception("Значение токена null.");
 
-            //if (!driver.Manage().Cookies.AllCookies[0].Expiry.Value.Hour.Equals(DateTime.Now.AddHours(1).Hour))
+            //if (!WebDriverFactory.Driver.Manage().Cookies.AllCookies[0].Expiry.Value.Hour.Equals(DateTime.Now.AddHours(1).Hour))
             //    throw new Exception("Время жизни токена не 1 час.");
 
             return true;

@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using System;
 
 namespace TestCloudControl.PageObjects
 {
@@ -90,6 +91,11 @@ namespace TestCloudControl.PageObjects
         public void OpenDevicesList()
         {
             _devicesItem.Click();
+        }
+
+        public void LogOff()
+        {
+            _logOff.Click();
         }
 
         private const string OFFLINE_MODEMS_HREF = ".//[@class='signal-icons']/a[0]";
