@@ -32,14 +32,20 @@ namespace TestCloudControl.TestCases.Device
             ObjectsPage objectsPage = PageFactory.GetObjectsPage();
 
             objectsPage.SuccessLoadObjects(companyName);
+            objectsPage.SelectPageSize(100);
+
+            WebDriverFactory.WaitForReady();
 
             string objectName = objectsPage.GetObjectName();
             objectsPage.OpenObject();
 
             ObjectPage objectPage = PageFactory.GetObjectPage();
             objectPage.SuccessLoadObject(objectName);
+            objectPage.OpenProfile();
 
-            
+            ProfilePage profileDevicePage = PageFactory.GetProfileDevicePage();
+
+            profileDevicePage.SuccessLoadProfileDevice();
         }
 
     }
