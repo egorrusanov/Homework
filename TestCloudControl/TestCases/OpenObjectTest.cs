@@ -25,8 +25,8 @@ namespace TestCloudControl.TestCases
                 throw new Exception("Не удалось авторизоваться.");
 
             MainPage mainPage = PageFactory.GetMainPage();
-            string companyName = mainPage.GetCompanyName();
-            mainPage.OpenObjects();
+            string companyName = mainPage.GetTestCompanyName();
+            mainPage.OpenTestCompany();
 
             ObjectsPage objectsPage = PageFactory.GetObjectsPage();
 

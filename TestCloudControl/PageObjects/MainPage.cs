@@ -1,36 +1,40 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
 using System;
+using System.Collections.Generic;
 
 namespace TestCloudControl.PageObjects
 {
     public class MainPage : Header
     {
-        [FindsBy(How = How.XPath, Using = FIRST_COMPANY_HREF)]
-        private IWebElement _firstCompanyHref;
+        [FindsBy(How = How.XPath, Using = COMPANY_LIST)]
+        private IWebElement _companyList;
 
-        [FindsBy(How = How.XPath, Using = FIRST_COMPANY_NAME)]
-        private IWebElement _firstCompanyName;
+        [FindsBy(How = How.XPath, Using = COMPANY_HREF)]
+        private IWebElement _companyHref;
 
         public bool SuccessLoadMainPage()
         {
-            if (_firstCompanyHref == null)
+            if (_companyList.FindElements(By.ClassName("col")) == null)
                 throw new Exception("Отсутствуют компании.");
 
             return true;
         }
 
-        public string GetCompanyName()
+        public void OpenTestCompany()
         {
-            return _firstCompanyName.Text;
+            _companyHref.Click();
         }
 
-        public void OpenObjects()
+        public string GetTestCompanyName()
         {
-            _firstCompanyHref.Click();
+            return TEST_COMPANY_NAME;
         }
-        
-        private const string FIRST_COMPANY_HREF = "//*[@id='spaContent']/div[3]/div[1]/div[1]/div/a";
-        private const string FIRST_COMPANY_NAME = "//*[@id='spaContent']/div[3]/div[1]/div[1]/div/a/div[2]";
+
+        private const string COMPANY_LIST = "//*[@id='spaContent']/div[3]/div[1]";
+        private const string COMPANY_HREF = "//*[@id='spaContent']/div[3]/div[1]/div[6]/div/a";
+
+        //не работает, но то
+        private const string TEST_COMPANY_NAME = "Тестовый дивизион";
     }
 }

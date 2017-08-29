@@ -10,7 +10,7 @@ namespace TestCloudControl
     public class WebDriverFactory
     {
         private static IWebDriver driver;
-        private static TimeSpan waitForElement = TimeSpan.FromSeconds(5);
+        private static int waitForElement = 5;
 
         public static IWebDriver Driver
         {
@@ -60,13 +60,14 @@ namespace TestCloudControl
         //Ожидание ответа ajax
         public static void WaitForReady()
         {
-            WebDriverWait wait = new WebDriverWait(Driver, waitForElement);
+            WebDriverWait wait = new WebDriverWait(Driver, TimeSpan.FromSeconds(waitForElement));
             wait.Until(driver =>
             {
                 bool isAjaxFinished = (bool)((IJavaScriptExecutor)driver).
                     ExecuteScript("return window.jQuery != undefined && jQuery.active === 0");
                 return isAjaxFinished;
             });
+           
         }
 
         public static bool IsActiveSession()
