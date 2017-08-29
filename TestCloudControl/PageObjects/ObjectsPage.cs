@@ -18,7 +18,7 @@ namespace TestCloudControl.PageObjects
         [FindsBy(How = How.XPath, Using = OBJECTS_PER_PAGE)]
         private IWebElement _objectsPerPage;
 
-        //[FindsBy(How = How.XPath, Using = PAGE_SIZE_100)]
+        [FindsBy(How = How.XPath, Using = PAGE_SIZE_100)]
         private IWebElement _pageSize100;
 
         public void SuccessLoadObjects(string companyName)

@@ -4,13 +4,15 @@ using OpenQA.Selenium.Firefox;
 using OpenQA.Selenium.IE;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.IO;
 
 namespace TestCloudControl
 {
     public class WebDriverFactory
     {
         private static IWebDriver driver;
-        private static int waitForElement = 5;
+        private static int waitForElement = 30;
+        //private static string DOWNLOAD_PATH;
 
         public static IWebDriver Driver
         {
@@ -30,12 +32,20 @@ namespace TestCloudControl
         {
             switch (driverName)
             {
-                case "Firefox":                    
-                    driver = new FirefoxDriver();
+                case "Firefox":
+                    FirefoxProfile firefoxProfile = new FirefoxProfile();
+                    firefoxProfile.SetPreference("browser.download.folderList", 2);
+                    firefoxProfile.SetPreference("browser.download.dir", GetDownloadPath());
+                    firefoxProfile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/xml");
+                    driver = new FirefoxDriver(firefoxProfile);
                     break;
 
                 case "Chrome":
-                    driver = new ChromeDriver();
+                    ChromeOptions chromeOptions = new ChromeOptions();
+                    chromeOptions.AddUserProfilePreference("download.default_directory", GetDownloadPath());
+                    chromeOptions.AddUserProfilePreference("intl.accept_languages", "nl");
+                    chromeOptions.AddUserProfilePreference("disable-popup-blocking", "true");
+                    driver = new ChromeDriver(chromeOptions);
                     break;
 
                 case "IE":
@@ -83,6 +93,48 @@ namespace TestCloudControl
                 throw new Exception("Время жизни токена истекло");
 
             return true;
+        }
+
+        public static string GetDownloadPath()
+        {
+            return AppDomain.CurrentDomain.BaseDirectory;
+        }
+
+        public static void DeleteFileDownloaded(string filename)
+        {
+            string Path = GetDownloadPath();
+            string[] filePaths = Directory.GetFiles(Path);
+            foreach (string p in filePaths)
+            {
+                if (p.Contains(filename))
+                {
+                    File.Delete(p);
+                    break;
+                }
+            }
+        }
+
+        public static bool CheckFileDownloaded(string filename)
+        {
+            bool exist = false;
+            string Path = GetDownloadPath();
+            string[] filePaths = Directory.GetFiles(Path);
+            foreach (string p in filePaths)
+            {
+                if (p.Contains(filename))
+                {
+                    FileInfo thisFile = new FileInfo(p);
+                    //Check the file that are downloaded in the last 3 minutes
+                    if (thisFile.LastWriteTime.ToShortTimeString() == DateTime.Now.ToShortTimeString() ||
+                    thisFile.LastWriteTime.AddMinutes(1).ToShortTimeString() == DateTime.Now.ToShortTimeString() ||
+                    thisFile.LastWriteTime.AddMinutes(2).ToShortTimeString() == DateTime.Now.ToShortTimeString() ||
+                    thisFile.LastWriteTime.AddMinutes(3).ToShortTimeString() == DateTime.Now.ToShortTimeString())
+                        exist = true;
+                    File.Delete(p);
+                    break;
+                }
+            }
+            return exist;
         }
     }
 }

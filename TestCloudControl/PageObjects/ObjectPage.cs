@@ -28,7 +28,7 @@ namespace TestCloudControl.PageObjects
         public void SuccessLoadObject(string objectName)
         {
             if (!objectName.Contains(_objectName.Text))
-                throw new Exception("Объект не загружены.");
+                throw new Exception("Объект не загружен.");
         }
 
         public void OpenProfile()
@@ -47,18 +47,25 @@ namespace TestCloudControl.PageObjects
                 if (modemsLeftSideList != null && modemsLeftSideList.Count > 0)
                 {
                     profileHref = GetFirstDeviceProfileHref(modemsLeftSideList);
-                    return profileHref;
+                }
+                else
+                {
+                    throw new Exception("Отсутствуют блоки.");
                 }
 
-                if (modemsRightSideList != null && modemsRightSideList.Count > 0)
+                if (profileHref == null && modemsRightSideList != null && modemsRightSideList.Count > 0)
                 {
                     profileHref = GetFirstDeviceProfileHref(modemsRightSideList);
                 }
+
+                if (profileHref == null)
+                    throw new Exception("В блоках отсутствуют устройства.");
+
                 return profileHref;
             }
-            catch
+            catch(Exception e)
             {
-                throw new Exception("Не удалось получить ссылку на Профиль.");
+                throw new Exception("Не удалось получить ссылку на Профиль. " + e.Message);
             }
         }
 
@@ -69,8 +76,13 @@ namespace TestCloudControl.PageObjects
                 IWebElement profileHref = null;
                 foreach (IWebElement dg in modemsList)
                 {
-                    profileHref = dg.FindElement(By.XPath("ul/li[1]/div/div[2]/a[1]"));
-                    break;
+                    IList<IWebElement> devicesList = dg.FindElements(By.TagName("ul"));
+                    if (devicesList.Count > 0 && devicesList[0].FindElements(By.TagName("li")) != null && 
+                        devicesList[0].FindElements(By.TagName("li")).Count > 0)
+                    {
+                        profileHref = devicesList[0].FindElement(By.XPath("li[1]/div/div[2]/a[1]"));
+                        break;
+                    }                        
                 }
 
                 return profileHref;
@@ -83,9 +95,9 @@ namespace TestCloudControl.PageObjects
         }
 
         private const string OBJECT_NAME = "//*[@id='spaContent']/div[1]/div[1]/div[1]/h1";
-        private const string MODEMS_LEFT_SIDE = "//*[@id='spaContent']/div[1]/div[2]/div[2]/div[1]";
-        private const string MODEMS_RIGHT_SIDE = "//*[@id='spaContent']/div[1]/div[2]/div[2]/div[2]";
-        private const string DEVICES_LIST = "//*[@id='spaContent']/div[1]/div[2]/div[2]/div[1]/div/ul";
+        private const string MODEMS_LEFT_SIDE =     "//*[@id='spaContent']/div[1]/div[2]/div[2]/div[1]";
+        private const string MODEMS_RIGHT_SIDE =    "//*[@id='spaContent']/div[1]/div[2]/div[2]/div[2]";
+        private const string DEVICES_LIST =         "//*[@id='spaContent']/div[1]/div[2]/div[2]/div[1]/div/ul";
         private const string PROFILE_HREF = "//*[@id='spaContent']/div[1]/div[2]/div[2]/div[1]/div/ul/li[1]/div[1]/div[2]/a[1]";
     }
 }

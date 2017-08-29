@@ -1,18 +1,30 @@
 ﻿using NUnit.Framework;
 using TestCloudControl.PageObjects;
 using System.Configuration;
-using System;
 using TestCloudControl.PageObjects.Device;
+using System.Collections;
 
-namespace TestCloudControl.TestCases.Device
+namespace TestCloudControl.TestCases.Device.Profile
 {
     [TestFixture]
     [Parallelizable]
-    public class OpenProfileFromObjectTest : TestBase
+    public class ProfileSaveTest : TestBase
     {
+        private const string SAVE_SUCCESS = "Профиль успешно сохранен";
+        public static IEnumerable GetTestCases
+        {
+            get
+            {
+                foreach (string browserName in BrowserToRunWith())
+                {
+                    yield return new TestCaseData(browserName).Returns(SAVE_SUCCESS);
+                }
+            }
+        }
+
         [Test]
-        [TestCaseSource(typeof(TestBase), "BrowserToRunWith")]
-        public void OpenProfileFromObject(string browserName)
+        [TestCaseSource(nameof(GetTestCases))]
+        public string ProfileSave(string browserName)
         {
             WebDriverFactory.InitDriver(browserName);
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
@@ -22,8 +34,7 @@ namespace TestCloudControl.TestCases.Device
 
             WebDriverFactory.WaitForReady();
 
-            if (!loginPage.SuccessLogin())
-                throw new Exception("Не удалось авторизоваться.");
+            loginPage.SuccessLogin();
 
             MainPage mainPage = PageFactory.GetMainPage();
             string companyName = mainPage.GetTestCompanyName();
@@ -43,7 +54,10 @@ namespace TestCloudControl.TestCases.Device
             ProfilePage profileDevicePage = PageFactory.GetProfileDevicePage();
 
             profileDevicePage.SuccessLoadProfileDevice();
-        }
 
+            profileDevicePage.SaveProfile();
+
+            return profileDevicePage.ValidateResultSave(WebDriverFactory.Driver);
+        }
     }
 }
