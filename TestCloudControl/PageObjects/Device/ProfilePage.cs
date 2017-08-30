@@ -1,5 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
+using OpenQA.Selenium.Support.UI;
 using System;
 
 namespace TestCloudControl.PageObjects.Device
@@ -8,6 +9,12 @@ namespace TestCloudControl.PageObjects.Device
     {
         [FindsBy(How = How.XPath, Using = SAVE_PROFILE)]
         private IWebElement _saveProfileButton;
+
+        [FindsBy(How = How.XPath, Using = WAIT_DIALOG)]
+        private IWebElement _pleaseWaitDialog;
+
+        [FindsBy(How = How.XPath, Using = SUCCESS_MESSAGE)]
+        private IWebElement _successMessage;
 
         public bool SuccessLoadProfileDevice()
         {
@@ -23,16 +30,19 @@ namespace TestCloudControl.PageObjects.Device
             _saveProfileButton.Click();
         }
 
-        public string ValidateResultSave(IWebDriver driver)
+        public string ValidateResultSave()
         {
             try
             {
                 WebDriverFactory.WaitForReady();
-                IWebElement successMessage = driver.FindElement(By.XPath(".//*[@class='toast-message']"));
+
+                string successMessage = WebDriverFactory.Driver.FindElement(By.XPath(".//*[@class='toast-message']")).Text;
                 
+                System.Threading.Thread.Sleep(3000);
                 if (!WebDriverFactory.CheckFileDownloaded(DOWNLOADING_FILE))
                     throw new Exception("Скаченный файл не найден.");
-                return successMessage.Text;
+
+                return successMessage;
             }
             catch (Exception e)
             {
@@ -40,8 +50,14 @@ namespace TestCloudControl.PageObjects.Device
             }
         }
 
+        public IWebElement GetSuccessMessage()
+        {
+            return _successMessage;
+        }
+
         private const string DOWNLOADING_FILE = "AK-PC551-0140.xml";
         private const string SAVE_PROFILE = "//button[.='Сохранить профиль']";
         private const string WAIT_DIALOG = "//*[@id='pleaseWaitDialog']";
+        private const string SUCCESS_MESSAGE = ".//*[@class='toast-message']";
     }
 }

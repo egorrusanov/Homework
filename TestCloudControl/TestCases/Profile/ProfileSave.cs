@@ -35,7 +35,7 @@ namespace TestCloudControl.TestCases.Device.Profile
             WebDriverFactory.WaitForReady();
 
             loginPage.SuccessLogin();
-
+            
             MainPage mainPage = PageFactory.GetMainPage();
             string companyName = mainPage.GetTestCompanyName();
             mainPage.OpenTestCompany();
@@ -57,7 +57,7 @@ namespace TestCloudControl.TestCases.Device.Profile
 
             profileDevicePage.SaveProfile();
 
-            return profileDevicePage.ValidateResultSave(WebDriverFactory.Driver);
+;           return profileDevicePage.ValidateResultSave();
         }
     }
 }

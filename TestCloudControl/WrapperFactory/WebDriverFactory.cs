@@ -11,8 +11,7 @@ namespace TestCloudControl
     public class WebDriverFactory
     {
         private static IWebDriver driver;
-        private static int waitForElement = 30;
-        //private static string DOWNLOAD_PATH;
+        private static int waitForElement = 5;
 
         public static IWebDriver Driver
         {
@@ -45,6 +44,9 @@ namespace TestCloudControl
                     chromeOptions.AddUserProfilePreference("download.default_directory", GetDownloadPath());
                     chromeOptions.AddUserProfilePreference("intl.accept_languages", "nl");
                     chromeOptions.AddUserProfilePreference("disable-popup-blocking", "true");
+                    chromeOptions.AddUserProfilePreference("download.prompt_for_download", false);
+                    chromeOptions.AddUserProfilePreference("download.directory_upgrade", true);
+                    chromeOptions.AddUserProfilePreference("safebrowsing.enabled", true);
                     driver = new ChromeDriver(chromeOptions);
                     break;
 
@@ -77,7 +79,6 @@ namespace TestCloudControl
                     ExecuteScript("return window.jQuery != undefined && jQuery.active === 0");
                 return isAjaxFinished;
             });
-           
         }
 
         public static bool IsActiveSession()
