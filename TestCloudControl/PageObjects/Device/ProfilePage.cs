@@ -2,6 +2,7 @@
 using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
+using System.Collections.Generic;
 
 namespace TestCloudControl.PageObjects.Device
 {
@@ -15,6 +16,9 @@ namespace TestCloudControl.PageObjects.Device
 
         [FindsBy(How = How.XPath, Using = SUCCESS_MESSAGE)]
         private IWebElement _successMessage;
+
+        [FindsBy(How = How.XPath, Using = GROUPS)]
+        private IWebElement _groups;
 
         public bool SuccessLoadProfileDevice()
         {
@@ -55,9 +59,48 @@ namespace TestCloudControl.PageObjects.Device
             return _successMessage;
         }
 
+        private IList<IWebElement> GetGroupsList()
+        {
+            return _groups.FindElements(By.TagName("li"));
+        }
+
+        private IWebElement GetGroupAllParameters()
+        {
+            IWebElement group = null;
+            foreach (IWebElement g in GetGroupsList())
+            {
+                if (g.GetAttribute("id").Equals("0"))
+                {
+                    group = g;
+                    break;
+                }                        
+            }
+            return group;
+        }
+
+        public void SelectAllParameters()
+        {
+            IWebElement allParameters = GetGroupAllParameters();
+
+            if (allParameters == null)
+                throw new Exception("Группа 'Все' не найдена.");
+
+            GetGroupAllParameters().Click();
+        }
+
+        public bool CheckTimeQuery(int limitTime)
+        {
+            DateTime startTime = DateTime.Now;
+            WebDriverFactory.WaitForReady();
+            DateTime endTime = DateTime.Now;
+
+            return endTime - startTime < TimeSpan.FromSeconds(limitTime);
+        }
+
         private const string DOWNLOADING_FILE = "AK-PC551-0140.xml";
         private const string SAVE_PROFILE = "//button[.='Сохранить профиль']";
         private const string WAIT_DIALOG = "//*[@id='pleaseWaitDialog']";
         private const string SUCCESS_MESSAGE = ".//*[@class='toast-message']";
+        private const string GROUPS = "//*[@id='spaContent']/div/div[2]/div[2]/div[1]/div/div[2]/ul";
     }
 }

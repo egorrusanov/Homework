@@ -11,7 +11,7 @@ namespace TestCloudControl
     public class WebDriverFactory
     {
         private static IWebDriver driver;
-        private static int waitForElement = 5;
+        private static int waitForElement = 60;
 
         public static IWebDriver Driver
         {
