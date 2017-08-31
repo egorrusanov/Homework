@@ -11,6 +11,21 @@ namespace TestCloudControl.PageObjects.Device
         [FindsBy(How = How.XPath, Using = SAVE_PROFILE)]
         private IWebElement _saveProfileButton;
 
+        [FindsBy(How = How.XPath, Using = UPLOAD_PROFILE)]
+        private IWebElement _uploadProfileButton;
+
+        [FindsBy(How = How.XPath, Using = APPLY_PROFILE)]
+        private IWebElement _applyProfileButton;
+
+        [FindsBy(How = How.XPath, Using = BROWSE)]
+        private IWebElement _browseButton;
+
+        [FindsBy(How = How.XPath, Using = UPLOAD)]
+        private IWebElement _uploadButton;
+
+        [FindsBy(How = How.XPath, Using = CLOSE)]
+        private IWebElement _closeButton;
+
         [FindsBy(How = How.XPath, Using = WAIT_DIALOG)]
         private IWebElement _pleaseWaitDialog;
 
@@ -97,10 +112,43 @@ namespace TestCloudControl.PageObjects.Device
             return endTime - startTime < TimeSpan.FromSeconds(limitTime);
         }
 
+        public void UploadProfile()
+        {
+            _uploadProfileButton.Click();
+
+        }
+
+        public void ApplyProfile()
+        {
+            _applyProfileButton.Click();
+        }
+
+        public void BrowseFile()
+        {
+            _browseButton.Click();
+        }
+
+        public void Upload()
+        {
+            _uploadButton.Click();
+        }
+
+        public void Close()
+        {
+            _closeButton.Click();
+        }
+
         private const string DOWNLOADING_FILE = "AK-PC551-0140.xml";
-        private const string SAVE_PROFILE = "//button[.='Сохранить профиль']";
+        private const string SAVE_PROFILE = "//*[@id='spaContent']/div/div[2]/div[1]/div/div/div[1]/div/button[1]";
+        private const string UPLOAD_PROFILE = "//*[@id='spaContent']/div/div[2]/div[1]/div/div/div[1]/div/button[2]";
+        private const string APPLY_PROFILE = "//*[@id='spaContent']/div/div[2]/div[1]/div/div/div[1]/div/button[3]";
         private const string WAIT_DIALOG = "//*[@id='pleaseWaitDialog']";
         private const string SUCCESS_MESSAGE = ".//*[@class='toast-message']";
         private const string GROUPS = "//*[@id='spaContent']/div/div[2]/div[2]/div[1]/div/div[2]/ul";
+        private const string UPLOAD_MODAL = "//*[@id='uploadProfileModal']";
+        private const string BROWSE = "//*[@id='uploadProfileModal']/form/div/div/div[2]/a/input";
+        private const string UPLOAD = "//*[@id='uploadProfileModal']/form/div/div/div[3]/div/button[1]";
+        private const string CLOSE = "//*[@id='uploadProfileModal']/form/div/div/div[3]/div/button[2]";
+
     }
 }

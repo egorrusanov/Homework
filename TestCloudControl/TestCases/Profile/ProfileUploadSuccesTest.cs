@@ -8,7 +8,7 @@ namespace TestCloudControl.TestCases.Device.Profile
 {
     [TestFixture]
     [Parallelizable]
-    public class ProfileSaveTest : TestBase
+    public class ProfileUploadSuccesTest : TestBase
     {
         private const string SAVE_SUCCESS = "Профиль успешно сохранен";
         public static IEnumerable GetTestCases
@@ -24,7 +24,7 @@ namespace TestCloudControl.TestCases.Device.Profile
 
         [Test]
         [TestCaseSource(nameof(GetTestCases))]
-        public string ProfileSave(string browserName)
+        public string ProfileUploadSucces(string browserName)
         {
             WebDriverFactory.InitDriver(browserName);
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
@@ -55,9 +55,13 @@ namespace TestCloudControl.TestCases.Device.Profile
 
             profileDevicePage.SuccessLoadProfileDevice();
 
-            profileDevicePage.SaveProfile();
+            profileDevicePage.UploadProfile();
 
-;           return profileDevicePage.ValidateResultSave();
+            WebDriverFactory.WaitForReady();
+
+            profileDevicePage.BrowseFile();
+
+            return profileDevicePage.ValidateResultSave();
         }
     }
 }

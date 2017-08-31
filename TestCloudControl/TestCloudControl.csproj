@@ -74,8 +74,10 @@
     <Compile Include="TestCases\Device\OpenDashboardFromDevicesListTest.cs" />
     <Compile Include="TestCases\Device\OpenProfileFromObjectTest.cs" />
     <Compile Include="TestCases\Device\OpenProfileFromDevicesListTest.cs" />
+    <Compile Include="TestCases\Profile\ProfileApplyTest.cs" />
+    <Compile Include="TestCases\Profile\ProfileUploadSuccesTest.cs" />
     <Compile Include="TestCases\Profile\SpeedLoadAllParametersTest.cs" />
-    <Compile Include="TestCases\Profile\ProfileSaveTest.cs" />
+    <Compile Include="TestCases\Profile\ProfileSaveSuccesTest.cs" />
     <Compile Include="TestCases\OpenObjectTest.cs" />
     <Compile Include="TestCases\OpenObjectsTest.cs" />
     <Compile Include="TestCases\VerifyTest.cs" />
