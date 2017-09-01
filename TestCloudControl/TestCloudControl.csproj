@@ -76,6 +76,7 @@
     <Compile Include="TestCases\Device\OpenProfileFromDevicesListTest.cs" />
     <Compile Include="TestCases\Profile\ProfileApplyTest.cs" />
     <Compile Include="TestCases\Profile\ProfileUploadSuccesTest.cs" />
+    <Compile Include="TestCases\Profile\CorrectNavigationListTest.cs" />
     <Compile Include="TestCases\Profile\SpeedLoadAllParametersTest.cs" />
     <Compile Include="TestCases\Profile\ProfileSaveSuccesTest.cs" />
     <Compile Include="TestCases\OpenObjectTest.cs" />

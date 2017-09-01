@@ -36,6 +36,7 @@ namespace TestCloudControl
                     firefoxProfile.SetPreference("browser.download.folderList", 2);
                     firefoxProfile.SetPreference("browser.download.dir", GetDownloadPath());
                     firefoxProfile.SetPreference("browser.helperApps.neverAsk.saveToDisk", "application/xml");
+                    firefoxProfile.SetPreference("browser.helperApps.alwaysAsk.force", false);
                     driver = new FirefoxDriver(firefoxProfile);
                     break;
 

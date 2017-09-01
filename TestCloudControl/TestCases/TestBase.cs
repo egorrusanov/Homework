@@ -27,7 +27,7 @@ namespace TestCloudControl.TestCases
                 };
             return browsers;
         }
-
+        
         [TearDown]
         public void Close()
         {

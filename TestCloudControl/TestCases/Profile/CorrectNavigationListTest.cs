@@ -3,16 +3,17 @@ using TestCloudControl.PageObjects;
 using System.Configuration;
 using TestCloudControl.PageObjects.Device;
 using System.Collections;
+using System;
 
 namespace TestCloudControl.TestCases.Device.Profile
 {
     [TestFixture]
     [Parallelizable]
-    public class ProfileUploadSuccesTest : TestBase
-    {
+    public class CorrectNavigationListTest : TestBase
+    {        
         [Test]
-        [TestCaseSource(nameof(BrowserToRunWith))]
-        public void ProfileUploadSucces(string browserName)
+        [TestCaseSource(typeof(TestBase), "BrowserToRunWith")]
+        public void CorrectNavigationList(string browserName)
         {
             WebDriverFactory.InitDriver(browserName);
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
@@ -43,17 +44,7 @@ namespace TestCloudControl.TestCases.Device.Profile
 
             profileDevicePage.SuccessLoadProfileDevice();
 
-            profileDevicePage.UploadProfile();
-
-            WebDriverFactory.WaitForReady();
-
-            profileDevicePage.BrowseFile();
-
-            profileDevicePage.Upload();
-
-            WebDriverFactory.WaitForReady();
-
-            Assert.IsTrue(profileDevicePage.IsEnableAllowButton(), "Не удалось загрузить профиль.");
+            Assert.IsTrue(profileDevicePage.ValidateGroupsName(), "Некорректное имя группы.");
         }
     }
 }

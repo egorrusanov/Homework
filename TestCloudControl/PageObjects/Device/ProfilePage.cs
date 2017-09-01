@@ -3,6 +3,7 @@ using OpenQA.Selenium.Support.PageObjects;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace TestCloudControl.PageObjects.Device
 {
@@ -112,6 +113,20 @@ namespace TestCloudControl.PageObjects.Device
             return endTime - startTime < TimeSpan.FromSeconds(limitTime);
         }
 
+        public bool ValidateGroupsName()
+        {
+            IList<IWebElement> groups = GetGroupsList();
+            var r = new Regex(REGEXP_GROUP_NAME);
+
+            foreach (IWebElement g in groups)
+            {
+                if (!r.IsMatch(g.Text) && !g.GetAttribute("id").Equals("0"))
+                    return false;
+            }
+
+            return true;
+        }
+
         public void UploadProfile()
         {
             _uploadProfileButton.Click();
@@ -125,7 +140,7 @@ namespace TestCloudControl.PageObjects.Device
 
         public void BrowseFile()
         {
-            _browseButton.Click();
+            _browseButton.SendKeys(WebDriverFactory.GetDownloadPath() + UPLOADING_FILE);
         }
 
         public void Upload()
@@ -138,7 +153,13 @@ namespace TestCloudControl.PageObjects.Device
             _closeButton.Click();
         }
 
+        public bool IsEnableAllowButton()
+        {
+            return _applyProfileButton.Enabled;
+        }
+
         private const string DOWNLOADING_FILE = "AK-PC551-0140.xml";
+        private const string UPLOADING_FILE = "AK-PC551-0140_upload.xml";
         private const string SAVE_PROFILE = "//*[@id='spaContent']/div/div[2]/div[1]/div/div/div[1]/div/button[1]";
         private const string UPLOAD_PROFILE = "//*[@id='spaContent']/div/div[2]/div[1]/div/div/div[1]/div/button[2]";
         private const string APPLY_PROFILE = "//*[@id='spaContent']/div/div[2]/div[1]/div/div/div[1]/div/button[3]";
@@ -150,5 +171,6 @@ namespace TestCloudControl.PageObjects.Device
         private const string UPLOAD = "//*[@id='uploadProfileModal']/form/div/div/div[3]/div/button[1]";
         private const string CLOSE = "//*[@id='uploadProfileModal']/form/div/div/div[3]/div/button[2]";
 
+        private const string REGEXP_GROUP_NAME = "^[0-9]*[\\s]?-.+";
     }
 }

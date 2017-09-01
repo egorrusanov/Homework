@@ -6,8 +6,8 @@ namespace TestCloudControl.PageObjects
     {
         private static T GetPage<T>() where T : new()
         {
-            var page = new T();
             WebDriverFactory.WaitForReady();
+            var page = new T();
             OpenQA.Selenium.Support.PageObjects.PageFactory.InitElements(WebDriverFactory.Driver, page);
             return page;
         }
