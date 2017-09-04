@@ -36,19 +36,22 @@ namespace TestCloudControl.PageObjects.Device
         [FindsBy(How = How.XPath, Using = GROUPS)]
         private IWebElement _groups;
 
-        public bool SuccessLoadProfileDevice()
-        {
-            if (_saveProfileButton == null)
-                throw new Exception("Не удалось загрузить Профиль.");
+        [FindsBy(How = How.XPath, Using = SEARCH)]
+        private IWebElement _search;
 
-            return true;
-        }
+        [FindsBy(How = How.XPath, Using = CHANGE)]
+        private IWebElement _change;
 
-        public void SaveProfile()
-        {
-            WebDriverFactory.DeleteFileDownloaded(DOWNLOADING_FILE);
-            _saveProfileButton.Click();
-        }
+        [FindsBy(How = How.XPath, Using = SAVE_PARAMETER)]
+        private IWebElement _saveParameter;
+
+        [FindsBy(How = How.XPath, Using = VALUE)]
+        private IWebElement _value;
+
+        [FindsBy(How = How.XPath, Using = CURRENT_VALUE)]
+        private IWebElement _currentValue;
+
+        private string _invalidGroupName;
 
         public string ValidateResultSave()
         {
@@ -70,11 +73,6 @@ namespace TestCloudControl.PageObjects.Device
             }
         }
 
-        public IWebElement GetSuccessMessage()
-        {
-            return _successMessage;
-        }
-
         private IList<IWebElement> GetGroupsList()
         {
             return _groups.FindElements(By.TagName("li"));
@@ -92,6 +90,30 @@ namespace TestCloudControl.PageObjects.Device
                 }                        
             }
             return group;
+        }
+
+        public bool SuccessLoadProfileDevice()
+        {
+            if (_saveProfileButton == null)
+                throw new Exception("Не удалось загрузить Профиль.");
+
+            return true;
+        }
+
+        public void SaveProfile()
+        {
+            WebDriverFactory.DeleteFileDownloaded(DOWNLOADING_FILE);
+            _saveProfileButton.Click();
+        }
+
+        public IWebElement GetSuccessMessage()
+        {
+            return _successMessage;
+        }
+
+        public string GetInvalidGroupName()
+        {
+            return _invalidGroupName;
         }
 
         public void SelectAllParameters()
@@ -121,16 +143,17 @@ namespace TestCloudControl.PageObjects.Device
             foreach (IWebElement g in groups)
             {
                 if (!r.IsMatch(g.Text) && !g.GetAttribute("id").Equals("0"))
+                {
+                    _invalidGroupName = g.Text;
                     return false;
+                }
             }
-
             return true;
         }
 
         public void UploadProfile()
         {
             _uploadProfileButton.Click();
-
         }
 
         public void ApplyProfile()
@@ -157,9 +180,35 @@ namespace TestCloudControl.PageObjects.Device
         {
             return _applyProfileButton.Enabled;
         }
+        
+        public void SearchEditableParameter()
+        {
+            _search.Clear();
+            _search.SendKeys(SEARCH_VALUE);
+        }
+
+        public void OpenParameter()
+        {
+            _change.Click();
+        }
+
+        public void ChangeValueParameter()
+        {
+            _value.Clear();
+            _value.SendKeys(NEW_VALUE);
+            _saveParameter.Click();
+        }
+
+        public bool CheckCurrentValue()
+        {
+            return _currentValue.Text.Equals(NEW_VALUE);
+        }
 
         private const string DOWNLOADING_FILE = "AK-PC551-0140.xml";
         private const string UPLOADING_FILE = "AK-PC551-0140_upload.xml";
+        private const string NEW_VALUE = "10,00";
+        
+        //XPaths
         private const string SAVE_PROFILE = "//*[@id='spaContent']/div/div[2]/div[1]/div/div/div[1]/div/button[1]";
         private const string UPLOAD_PROFILE = "//*[@id='spaContent']/div/div[2]/div[1]/div/div/div[1]/div/button[2]";
         private const string APPLY_PROFILE = "//*[@id='spaContent']/div/div[2]/div[1]/div/div/div[1]/div/button[3]";
@@ -170,6 +219,14 @@ namespace TestCloudControl.PageObjects.Device
         private const string BROWSE = "//*[@id='uploadProfileModal']/form/div/div/div[2]/a/input";
         private const string UPLOAD = "//*[@id='uploadProfileModal']/form/div/div/div[3]/div/button[1]";
         private const string CLOSE = "//*[@id='uploadProfileModal']/form/div/div/div[3]/div/button[2]";
+        private const string SEARCH = "//*[@id='profileParameters_filter']/input";
+        private const string SEARCH_VALUE = "3001_0";
+        private const string CHANGE = "//*[@id='158200']";
+        private const string SAVE_PARAMETER = "//*[@id='changeValueModal']/form/div/div/div[3]/div/button[1]";
+        private const string CLOSE_PARAMETER = "//*[@id='changeValueModal']/form/div/div/div[3]/div/button[2]";
+        private const string VALUE = "//*[@id='TextField_158225']";
+        private const string CURRENT_VALUE = "//*[@id='profileParameters']/tbody/tr/td[5]";
+
 
         private const string REGEXP_GROUP_NAME = "^[0-9]*[\\s]?-.+";
     }

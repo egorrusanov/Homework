@@ -9,11 +9,11 @@ namespace TestCloudControl.TestCases.Device.Profile
 {
     [TestFixture]
     [Parallelizable]
-    public class CorrectNavigationListTest : TestBase
+    public class ValidateValueParameterTest : TestBase
     {        
         [Test]
         [TestCaseSource(typeof(TestBase), "BrowserToRunWith")]
-        public void CorrectNavigationList(string browserName)
+        public void ValidateValueParameter(string browserName)
         {
             WebDriverFactory.InitDriver(browserName);
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
@@ -44,7 +44,6 @@ namespace TestCloudControl.TestCases.Device.Profile
 
             profileDevicePage.SuccessLoadProfileDevice();
 
-            Assert.IsTrue(profileDevicePage.ValidateGroupsName(), "Некорректное имя группы " + profileDevicePage.GetInvalidGroupName() + ".");
         }
     }
 }

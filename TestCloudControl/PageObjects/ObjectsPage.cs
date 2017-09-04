@@ -23,6 +23,8 @@ namespace TestCloudControl.PageObjects
 
         public void SuccessLoadObjects(string companyName)
         {
+            //необходимо в FF
+            System.Threading.Thread.Sleep(2000);
             if (!companyName.Contains(_companyName.Text))
                 throw new Exception("Объекты не загружены.");
         }

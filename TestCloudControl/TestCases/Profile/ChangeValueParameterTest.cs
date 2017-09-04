@@ -7,13 +7,14 @@ using System;
 
 namespace TestCloudControl.TestCases.Device.Profile
 {
-    [TestFixture]
-    [Parallelizable]
-    public class CorrectNavigationListTest : TestBase
+    //[TestFixture]
+    //[Parallelizable]
+    public class ChangeValueParameterTest : TestBase
     {        
-        [Test]
-        [TestCaseSource(typeof(TestBase), "BrowserToRunWith")]
-        public void CorrectNavigationList(string browserName)
+        //[Test]
+        //TODO: сделать набор данных по параметрам
+        //[TestCaseSource(typeof(TestBase), "BrowserToRunWith")]
+        public void ChangeValueParameter(string browserName)
         {
             WebDriverFactory.InitDriver(browserName);
             WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
@@ -44,7 +45,18 @@ namespace TestCloudControl.TestCases.Device.Profile
 
             profileDevicePage.SuccessLoadProfileDevice();
 
-            Assert.IsTrue(profileDevicePage.ValidateGroupsName(), "Некорректное имя группы " + profileDevicePage.GetInvalidGroupName() + ".");
-        }
+            profileDevicePage.SearchEditableParameter();
+
+            WebDriverFactory.WaitForReady();
+
+            profileDevicePage.OpenParameter();
+
+            WebDriverFactory.WaitForReady();
+
+            profileDevicePage.ChangeValueParameter();
+
+            WebDriverFactory.WaitForReady();
+
+            Assert.IsTrue(profileDevicePage.CheckCurrentValue(), "Не удалось сохранить значение.");        }
     }
 }

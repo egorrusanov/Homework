@@ -74,6 +74,8 @@
     <Compile Include="TestCases\Device\OpenDashboardFromDevicesListTest.cs" />
     <Compile Include="TestCases\Device\OpenProfileFromObjectTest.cs" />
     <Compile Include="TestCases\Device\OpenProfileFromDevicesListTest.cs" />
+    <Compile Include="TestCases\Profile\ChangeValueParameterTest.cs" />
+    <Compile Include="TestCases\Profile\ValidateValueParameterTest.cs" />
     <Compile Include="TestCases\Profile\ProfileApplyTest.cs" />
     <Compile Include="TestCases\Profile\ProfileUploadSuccesTest.cs" />
     <Compile Include="TestCases\Profile\CorrectNavigationListTest.cs" />

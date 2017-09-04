@@ -31,6 +31,8 @@ namespace TestCloudControl.PageObjects
 
         public string GetTestCompanyName()
         {
+            //необходимо в FF
+            System.Threading.Thread.Sleep(2000);
             return _companyName.Text;
         }
 
