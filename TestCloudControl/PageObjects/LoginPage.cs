@@ -11,7 +11,6 @@ namespace TestCloudControl.PageObjects
         private IWebElement _userName;
 
         [FindsBy(How = How.Id, Using = "RegisterPassword")]
-        [CacheLookup]
         private IWebElement _userPassword;
 
         [FindsBy(How = How.XPath, Using = LOGIN_BUTTON)]
