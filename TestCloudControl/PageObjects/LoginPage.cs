@@ -7,69 +7,26 @@ namespace TestCloudControl.PageObjects
 {
     public class LoginPage
     {
-        [FindsBy(How = How.Id, Using = "RegisterUserName")]
-        private IWebElement _userName;
+        private const string LOGIN_TEXTBOX = "//*[@id='LoginTextBox']";
+        private const string PASSWORD_TEXTBOX = "//*[@id='PasswordTextBox']";
+        private const string LOGIN_BUTTON = "//*[@id='btnLogin']";
 
-        [FindsBy(How = How.Id, Using = "RegisterPassword")]
-        private IWebElement _userPassword;
+        [FindsBy(How = How.XPath, Using = LOGIN_TEXTBOX)]
+        private IWebElement _loginTextbox;
+
+        [FindsBy(How = How.XPath, Using = PASSWORD_TEXTBOX)]
+        private IWebElement _passwordTextbox;
 
         [FindsBy(How = How.XPath, Using = LOGIN_BUTTON)]
         private IWebElement _submit;
 
-        [FindsBy(How = How.LinkText, Using = "Авторизация")]
-        private IWebElement _successLoad;
-
-        [FindsBy(How = How.Id, Using = "toast-container")]
-        private IWebElement _toastContainer;
-
-        [FindsBy(How = How.XPath, Using = "//[@data-l10n-id='Register']")]
-        private IWebElement _register;
-
-        [FindsBy(How = How.XPath, Using = "//[@data-l10n-id='RecoverPassword']")]
-        private IWebElement _recoverPassword;
-
-        [FindsBy(How = How.XPath, Using = "//[@type='checkbox']")]
-        private IWebElement _rememberMe;
-
-        public void LoginToApplication(string name, string password)
+        public void LoginToApplication(string email, string password)
         {
-            _userName.Clear();
-            _userName.SendKeys(name);
-            _userPassword.Clear();
-            _userPassword.SendKeys(password);
+            _loginTextbox.Clear();
+            _loginTextbox.SendKeys(email);
+            _passwordTextbox.Clear();
+            _passwordTextbox.SendKeys(email);
             _submit.Click();
         }
-
-        public string ValidateResultLogin(IWebDriver driver)
-        {
-            try
-            {
-                WebDriverFactory.WaitForReady();
-                IWebElement errorMessage = driver.FindElement(By.XPath(".//*[@class='toast-message']"));
-
-                return errorMessage.Text;
-            }
-            catch (Exception e)
-            {
-                return e.Message;
-            }
-        }
-
-        public bool SuccessLogin()
-        {
-            if (WebDriverFactory.Driver.Manage().Cookies.AllCookies.Count == 0)
-                throw new Exception("Cookies пустые.");
-
-            if (WebDriverFactory.Driver.Manage().Cookies.AllCookies[0].Value.Equals("null"))
-                throw new Exception("Значение токена null.");
-
-            //if (!WebDriverFactory.Driver.Manage().Cookies.AllCookies[0].Expiry.Value.Hour.Equals(DateTime.Now.AddHours(1).Hour))
-            //    throw new Exception("Время жизни токена не 1 час.");
-
-            return true;
-        }
-
-        private const string LOGIN_BUTTON = "//button[@type='submit']";
-        private const string LOGIN_DENIED = "Неверный логин или пароль";
     }
 }

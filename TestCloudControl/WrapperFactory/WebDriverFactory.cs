@@ -52,7 +52,9 @@ namespace TestCloudControl
                     break;
 
                 case "IE":
-                    driver = new InternetExplorerDriver();
+                    var options = new InternetExplorerOptions();
+                    options.IntroduceInstabilityByIgnoringProtectedModeSettings = true;
+                    driver = new InternetExplorerDriver(options);
                     break;
             }
             driver.Manage().Cookies.DeleteAllCookies();
