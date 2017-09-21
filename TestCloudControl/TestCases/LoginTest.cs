@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 using TestCloudControl.PageObjects;
-using System.Configuration;
+using TestCloudControl.Common;
 
 namespace TestCloudControl.TestCases
 {
@@ -12,16 +12,13 @@ namespace TestCloudControl.TestCases
         [TestCaseSource(typeof(TestBase), "BrowserToRunWith")]
         public void Login(string browserName)
         {
-            WebDriverFactory.InitDriver(browserName);
-            WebDriverFactory.LoadApplication(ConfigurationManager.AppSettings["URL"]);
+            InitDriver(browserName);
 
-            LoginPage loginPage = PageFactory.GetLoginPage();
-            
-            loginPage.LoginToApplication(GetEmail(), GetPassword());
+            LoginPage loginPage = PageFactory.GetPage<LoginPage>(Driver);
 
-            WebDriverFactory.WaitForReady();
+            loginPage.LoginToApplication(GetEmail(), GetPassword(), Driver);
 
-            loginPage.SuccessLogin();
+            Assert.IsTrue(loginPage.SuccessLogin(Driver), "Не удалось авторизоваться.");
         }
     }
 }

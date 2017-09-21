@@ -60,27 +60,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PageObjects\DevicePage.cs" />
-    <Compile Include="PageObjects\DevicesPage.cs" />
-    <Compile Include="PageObjects\Device\DashboardPage.cs" />
-    <Compile Include="PageObjects\Device\ProfilePage.cs" />
-    <Compile Include="PageObjects\Header.cs" />
-    <Compile Include="PageObjects\MainPage.cs" />
-    <Compile Include="PageObjects\ObjectPage.cs" />
-    <Compile Include="PageObjects\ObjectsPage.cs" />
-    <Compile Include="PageObjects\PageFactory.cs" />
+    <Compile Include="Common\AbstractPage.cs" />
+    <Compile Include="Common\PageFactory.cs" />
+    <Compile Include="Common\TestBase.cs" />
+    <Compile Include="Common\WebDriverFactory.cs" />
     <Compile Include="PageObjects\LoginPage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestCases\Device\OpenDashboardFromDevicesListTest.cs" />
-    <Compile Include="TestCases\Device\OpenProfileFromObjectTest.cs" />
-    <Compile Include="TestCases\Device\OpenProfileFromDevicesListTest.cs" />
-    <Compile Include="TestCases\OpenObjectTest.cs" />
-    <Compile Include="TestCases\OpenObjectsTest.cs" />
-    <Compile Include="TestCases\VerifyTest.cs" />
-    <Compile Include="TestCases\TestBase.cs" />
     <Compile Include="TestCases\LoginTest.cs" />
-    <Compile Include="TestDataAccess\UserData.cs" />
-    <Compile Include="WrapperFactory\WebDriverFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -88,6 +74,7 @@
     </None>
     <None Include="Configurations\Environment.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
@@ -95,7 +82,6 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="PageObjects\Devices\" />
     <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
